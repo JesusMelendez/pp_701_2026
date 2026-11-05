@@ -1,0 +1,11 @@
+[project]
+name = "cuidados-observatorio"
+version = "0.1.0"
+description = "Observatorio de cuidados: medallion y Streamlit"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "pyarrow",
+    "s3fs",
+    "streamlit",
+]
