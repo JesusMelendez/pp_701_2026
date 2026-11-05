@@ -2,10 +2,21 @@
 name = "cuidados-observatorio"
 version = "0.1.0"
 description = "Observatorio de cuidados: medallion y Streamlit"
-requires-python = ">=3.11"
+readme = "README.md"
+requires-python = ">=3.12"
 dependencies = [
-    "pandas",
+    "fastapi>=0.141.1",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.3",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.6",
     "pyarrow",
+    "pyspark>=4.2.0",
     "s3fs",
+    "scipy>=1.18.1",
+    "seaborn>=0.13.2",
+    "sqlalchemy>=2.0.54",
     "streamlit",
+    "uvicorn>=0.53.0",
 ]
