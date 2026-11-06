@@ -1,5 +1,3 @@
-#%%
-
 import sys
 import urllib.request
 import zipfile
@@ -38,10 +36,11 @@ class ObservatorioCuidados:
             .enableHiveSupport()
             .getOrCreate()
         )
+        return spark
 
     def inicializar_base_datos(self):
-        self.spark.sql("CREATE DATABASE IF NOT EXISTS {self.base_datos} LOCATION '{self.base_path}'")
-        self.spark.sql("USE {self.base_datos}")
+        self.spark.sql(f"CREATE DATABASE IF NOT EXISTS {self.base_datos} LOCATION '{self.base_path}'")
+        self.spark.sql(f"USE {self.base_datos}")
 
     def descargar_fuente(self, nombre_fuente: str, url:str):
         """Descarga y descomprime una fuente del inegi"""
@@ -79,5 +78,3 @@ class ObservatorioCuidados:
                     .saveAsTable(f"{self.base_datos}.bronze_{nombre}")
                 )
                 print(nombre, df.count())
-         
-# %%
