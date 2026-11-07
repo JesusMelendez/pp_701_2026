@@ -1,4 +1,4 @@
-from bronze_layer.bronze import BronzeLayer
+from bronze import BronzeLayer
 
 bronze = BronzeLayer(
     staging_dir="datasets"
