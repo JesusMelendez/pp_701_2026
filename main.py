@@ -1,5 +1,6 @@
 from observatorio_cuidados import ObservatorioCuidados
 from pyspark.sql import SparkSession
+from bronze_layer.audit import BronzeAuditor
 
 def main():
 
@@ -24,6 +25,10 @@ def main():
                     f"No existe el directorio: {destino}"
                 )
             obs.ingestar_csvs(nombre, destino)
+
+        auditoria = BronzeAuditor(obs)
+        resultados = auditoria.auditar_bronze()
+
     finally:
         obs.spark.stop()
 
