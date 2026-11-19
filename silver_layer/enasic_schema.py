@@ -1,37 +1,14 @@
-from pyspark.sql import DataFrame
 from pathlib import Path
 
-class EnasicSchema:
-    """Procesamiento de la fuente ENASIC 2022 para la capa silver"""
+from .common import SilverBase, ENASIC_TABLAS
+
+
+class EnasicSchema(SilverBase):
+    """Inspección de esquema de la fuente ENASIC 2022."""
 
     def __init__(self, observatorio):
-        self.spark = observatorio.spark
-        self.database ="cuidados_observatorio"
+        super().__init__(observatorio, ENASIC_TABLAS, "enasic_2022")
 
-        self.tablas = {
-            "vivienda":"bronze_enasic_2022_tvivienda",
-            "hogar": "bronze_enasic_2022_thogar",
-            "hogar_unipersonal": "bronze_enasic_2022_thog_unip",
-            "personas":"bronze_enasic_2022_tper_ele",
-            "residentes":"bronze_enasic_2022_tcsdempo",
-            "cuidadores":"bronze_enasic_2022_tpob_cui"
-        }
-
-        self.datos = {}
-
-    def cargar_bronze(self):
-        """Carga las tablas ENASIC registradas en Apache-hive"."""
-        for nombre, tabla in self.tablas.items():
-            nombre_completo = f"{self.database}.{tabla}"
-
-            if not self.spark.catalog.tableExists(nombre_completo):
-                raise ValueError(
-                    f"No existe la tabla Bronze: {nombre_completo}"
-                )
-            self.datos[nombre] = self.spark.table(nombre_completo)
-
-        return self.datos
-    
     def mostrar_arbol(self):
         if not self.datos:
             self.cargar_bronze()
@@ -76,17 +53,3 @@ class EnasicSchema:
             )
 
             print(f"\nÁrbol completo guardado en: {ruta_salida}")
-
-    @staticmethod
-    def exigir_columnas(df: DataFrame, columnas: list, tabla: str):
-        """Comprueba que existan las columnas necesarias."""
-
-        faltantes = [
-            columna for columna in columnas
-            if columna not in df.columns
-        ]
-
-        if faltantes:
-            raise ValueError(
-                f"Faltan columnas en {tabla}: {faltantes}"
-            )
