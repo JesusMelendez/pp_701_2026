@@ -9,8 +9,8 @@ class BronzeAuditor:
         print("\n========== AUDITORÍA BRONZE ==========\n")
 
         # 1. Recuperar tablas registradas
-        tablas = obs.spark.sql("""
-            SHOW TABLES IN cuidados_observatorio
+        tablas = obs.spark.sql(f"""
+            SHOW TABLES IN {obs.base_datos}
         """).collect()
 
         nombres_tablas = {
@@ -56,7 +56,7 @@ class BronzeAuditor:
 
                 # Leer tabla Bronze
                 destino = obs.spark.table(
-                    f"cuidados_observatorio.{nombre_tabla}"
+                    f"{obs.base_datos}.{nombre_tabla}"
                 )
 
                 # Conteos
@@ -79,7 +79,7 @@ class BronzeAuditor:
                 descripcion = obs.spark.sql(
                     f"""
                     DESCRIBE FORMATTED
-                    cuidados_observatorio.{nombre_tabla}
+                    {obs.base_datos}.{nombre_tabla}
                     """
                 ).collect()
 
