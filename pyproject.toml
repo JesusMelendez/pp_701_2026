@@ -8,4 +8,5 @@ dependencies = [
     "pyarrow",
     "pyspark",
     "s3fs",
+    "streamlit",
 ]
